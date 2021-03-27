@@ -1,8 +1,6 @@
-from selenium.webdriver.common.keys import Keys
 from base import BaseCase
 import locators
 import pytest
-import time
 
 class Test(BaseCase):
 
@@ -14,45 +12,22 @@ class Test(BaseCase):
     def test_logout(self, login):
         self.click(locators.LOGOUT_ICON)
         self.click(locators.LOGOUT_LOCATOR)
-        time.sleep(3)
-        assert 'Войти' in self.driver.page_source
+        assert self.element_exist(locators.LOGIN_LOCATOR) == True
 
     @pytest.mark.UI
     def test_edit(self, login):
-        data = ['diana l', '79999999777', 'smth10@mail.ru']
         self.click(locators.PROFILE_LOCATOR)
-
-        fio = self.find(locators.PROFILE_FIO)
-        fio.clear()
-        fio.send_keys(data[0])
-
-        phone = self.find(locators.PROFILE_PHONE)
-        phone.clear()
-        phone.send_keys(data[1])
-
-        email = self.find(locators.PROFILE_EMAIL)
-        email.clear()
-        email.send_keys(data[2])
-
-        self.click(locators.PROFILE_SUBMIT)
-        self.driver.refresh()
-
-        fio = self.find(locators.PROFILE_FIO).get_attribute('value')
-        phone = self.find(locators.PROFILE_PHONE).get_attribute('value')
-        email = self.find(locators.PROFILE_EMAIL).get_attribute('value')
-
-        assert [fio, phone, email] == data
+        res = self.edit_profile()
+        assert res == True
     
-    @pytest.mark.parametrize('locator, expected_res',
+    @pytest.mark.parametrize('locator, expected_loc',
         [
-            (locators.PAGE1_LOCATOR, 'Конструктор отчётов'),
-            (locators.PAGE2_LOCATOR, 'Аудиторные сегменты')
+            (locators.PAGE1_LOCATOR, locators.SUCCESS1),
+            (locators.PAGE2_LOCATOR, locators.SUCCESS2)
         ]    
     )
     @pytest.mark.UI
-    def test_page(self, login, locator, expected_res):
+    def test_page(self, login, locator, expected_loc):
         self.click(locator)
-        time.sleep(3)
-        assert expected_res in self.driver.page_source
+        assert self.element_exist(expected_loc) == True
 
-time.sleep(5)
