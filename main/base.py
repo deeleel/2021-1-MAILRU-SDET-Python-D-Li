@@ -51,3 +51,33 @@ class BaseCase:
 
         button = self.find(locators.LOGIN_BUTTON)
         button.click()
+
+    def element_exist(self, locator):
+        try:
+            self.find(locator)
+        except NoSuchElementException:
+            return False
+        return True
+    
+     def edit_profile(self):
+        data = ['diana aleksandrovna', '79999999777', 'smth10@mail.ru']
+        fio = self.find(locators.PROFILE_FIO)
+        fio.clear()
+        fio.send_keys(data[0])
+
+        phone = self.find(locators.PROFILE_PHONE)
+        phone.clear()
+        phone.send_keys(data[1])
+
+        email = self.find(locators.PROFILE_EMAIL)
+        email.clear()
+        email.send_keys(data[2])
+
+        self.click(locators.PROFILE_SUBMIT)
+        self.driver.refresh()
+
+        fio = self.find(locators.PROFILE_FIO).get_attribute('value')
+        phone = self.find(locators.PROFILE_PHONE).get_attribute('value')
+        email = self.find(locators.PROFILE_EMAIL).get_attribute('value')
+
+        return (False, True)[[fio, phone, email] == data]
