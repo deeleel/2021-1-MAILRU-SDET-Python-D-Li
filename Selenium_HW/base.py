@@ -59,7 +59,7 @@ class BaseCase:
             return False
         return True
     
-     def edit_profile(self):
+    def edit_profile(self):
         data = ['diana aleksandrovna', '79999999777', 'smth10@mail.ru']
         fio = self.find(locators.PROFILE_FIO)
         fio.clear()
