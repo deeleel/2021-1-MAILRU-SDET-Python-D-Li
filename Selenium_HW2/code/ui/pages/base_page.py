@@ -1,5 +1,6 @@
 import time
 import logging
+import allure
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
@@ -29,14 +30,13 @@ class BasePage(object):
         logger.info(f'{self.__class__.__name__} page is opening...')
         assert self.is_opened()
 
-    def is_opened(self, err_locator=None):
+    def is_opened(self):
         def _check_url():
             if self.driver.current_url != self.url:
                 raise PageNotLoadedException(
-                    f'{self.url} did not open in {BASE_TIMEOUT} sec for {self.__class__.__name__}.\n'
+                    f'{self.url} did not opened in {BASE_TIMEOUT} for {self.__class__.__name__}.\n'
                     f'Current url: {self.driver.current_url}.')
             return True
-        return _check_url()
         return wait(_check_url, error=PageNotLoadedException, check=True, timeout=BASE_TIMEOUT, interval=0.1)
 
     def wait(self, timeout=None):
@@ -51,16 +51,10 @@ class BasePage(object):
     def action_chains(self):
         return ActionChains(self.driver)
 
-
     def scroll_to(self, element):
         self.driver.execute_script('arguments[0].scrollIntoView(true);', element)
 
-    def search(self, query):
-        search = self.find(self.locators.QUERY_LOCATOR)
-        search.clear()
-        search.send_keys(query)
-        self.click(self.locators.GO_LOCATOR)
-
+    @allure.step('Clicking on {locator}')
     def click(self, locator, timeout=None):
         for i in range(CLICK_RETRY):
             try:
@@ -73,6 +67,7 @@ class BasePage(object):
                 if i == CLICK_RETRY - 1:
                     raise
 
+    @allure.step('Checking that element exist - {locator}')
     def element_exist(self, locator):
         try:
             self.find(locator, timeout=BASE_TIMEOUT)
@@ -80,10 +75,12 @@ class BasePage(object):
             return False
         return True
 
+    @allure.step('Getting text from - {locator}')
     def get_value(self, locator):
         elem = self.find(locator)
         return elem.text
 
+    @allure.step('Getting text from - {locator} - with attribute {attr}')
     def get_attr_value(self, locator, attr):
         elem = self.find(locator)
         return elem.get_attribute(attr)

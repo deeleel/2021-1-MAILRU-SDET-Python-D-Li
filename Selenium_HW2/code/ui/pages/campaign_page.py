@@ -51,7 +51,5 @@ class CampaignPage(BasePage):
 
         # check created campaign by unique name
         check_name = (self.locators.CHECK_CAMPAIGN_BY_NAME[0], self.locators.CHECK_CAMPAIGN_BY_NAME[1].format(name))
-        if self.element_exist(check_name):
-            return True
-        else:
-            return False
+        
+        return self.element_exist(check_name)

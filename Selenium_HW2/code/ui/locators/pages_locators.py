@@ -50,19 +50,19 @@ class CampaignPageLocators:
 
 class SegmentsPageLocators:
     
-    CREATE_SEGMENT1         = (By.CSS_SELECTOR, '[href="/segments/segments_list/new/"]')
-    CREATE_SEGMENT2         = (By.CSS_SELECTOR, 'button.button_submit')
+    CREATE_SEGMENT1         = (By.XPATH, '//*[contains(@class, "js-instruction-wrap")]//*[@href="/segments/segments_list/new/" and text()="Создайте"]')
+    CREATE_SEGMENT2         = (By.XPATH, '//*[normalize-space(text())="Создать сегмент"]/parent::*[@data-class-name="Submit"]')
 
     CHECKBOX                = (By.CSS_SELECTOR, '.adding-segments-source__checkbox')
     ADD_SEGMENT             = (By.XPATH, '//*[@class="adding-segments-modal"]//*[@data-class-name="Submit"]')
 
     INPUT_WITH_NAME         = (By.CSS_SELECTOR, '.input_create-segment-form input')
     SUBMIT_SEGMENT          = (By.XPATH, '//*[@class="create-segment-form"]//*[@data-class-name="Submit"]')
-    CHECK_SEGMENT_BY_NAME   = (By.XPATH, '//*[@class="ReactVirtualized__Grid"]//*[normalize-space(text())={}]')
+    CHECK_SEGMENT_BY_NAME   = (By.XPATH, '//*[@class="ReactVirtualized__Grid"]//*[normalize-space(text())="{}"]')
+    
+    CHECK_SEGMENT           = (By.XPATH, '(//*[@class="ReactVirtualized__Grid"]//*[@href])[1]')
 
-    SEGMENT_TM              = '(//*[@class="ReactVirtualized__Grid"]//*[@href])[1]'
-    CHECK_SEGMENT           = (By.XPATH, SEGMENT_TM)
-    CROSS_ICON              = (By.XPATH, SEGMENT_TM + '/parent::*/parent::*/following-sibling::*[4]//*')
+    CROSS_ICON              = (By.XPATH, '//*[@class="ReactVirtualized__Grid"]//*[normalize-space(text())="{}"]/parent::*/parent::*/following-sibling::*[4]/*')
 
     VERIFY_DELETE           = (By.CSS_SELECTOR, '.button_confirm-remove')
 
