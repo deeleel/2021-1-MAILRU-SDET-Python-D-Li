@@ -4,3 +4,7 @@ selenium
 allure-pytest
 webdriver-manager
 requests
+json
+faker
+Appium-Python-Client
+
