@@ -13,6 +13,7 @@ class TestApi(ApiBase):
     def test_valid_login(self):
         self.api_client.post_login()
 
+
 class Test_Campaign(ApiBase):
 
     @allure.feature('API tests')
@@ -40,5 +41,6 @@ class Test_Segment(ApiBase):
     @pytest.mark.API
     def test_delete_segment(self):
         name = self.builder.segment_inputs()
-        self.api_client.delete_segment(name)
+        id_new_seg = self.api_client.post_segment_create(name)
+        self.api_client.delete_segment(id_new_seg)
 

@@ -1,9 +1,9 @@
-from ui.fixtures import * 
 import sys
 import shutil
 import logging
 import allure
-
+import pytest
+import os
 from api.client import ApiClient
 
 
@@ -50,7 +50,7 @@ def test_dir(request):
 
 @pytest.fixture(scope='function')
 def file_path(repo_root):
-    return [os.path.join(repo_root, 'img', '111.jpeg'), os.path.join(repo_root, 'img', 'video.mp4')]
+    return [os.path.join(repo_root, 'img', '111.jpg'), os.path.join(repo_root, 'img', 'video.mp4')]
 
 
 @pytest.fixture(scope='function', autouse=True)
