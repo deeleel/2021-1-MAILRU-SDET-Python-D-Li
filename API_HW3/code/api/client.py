@@ -107,7 +107,7 @@ class ApiClient:
         res = self._request('GET', urljoin(self.base_url, 'api/v2/remarketing/segments.json')).json()
         segment = [s['id'] for s in res['items'] if s['id'] == id]
 
-        return (False, True)[len(segment) == 1]
+        return len(segment) == 1
 
 
     @allure.step('Checking id = {id} campaign')
@@ -125,7 +125,7 @@ class ApiClient:
                                                                 params=params_campaign).json()
         campaign = [c['id'] for c in res['items'] if c['id'] == id]
 
-        return (False, True)[len(campaign) == 1]
+        return len(campaign) == 1
 
 
     @allure.step('Creating segment')
@@ -165,13 +165,21 @@ class ApiClient:
                                data=data_v, files=files_v).json()
         return v_id['id']
 
+    @allure.step('Getting banner id')
+    def get_banner_id(self):
+        params_url = {'url': 'mail.ru'}
+        res = self._request('GET', urljoin(self.base_url, 'api/v1/urls'), params=params_url).json()
+
+        return res['id']
+
 
     @allure.step('Creating campaign')
     def post_create_campaign(self, file_path, name, title, text):
 
         img_id = self.get_img_id(file_path)
         v_id = self.get_video_id(file_path)
-        data = get_data_campaign(name, title, text, img_id, v_id)
+        banner_id = self.get_banner_id()
+        data = get_data_campaign(name, title, text, img_id, v_id, banner_id)
 
         response_campaign = self._request('POST', urljoin(self.base_url, 'api/v2/campaigns.json'), headers=self.csrf_header, json=data).json()
         

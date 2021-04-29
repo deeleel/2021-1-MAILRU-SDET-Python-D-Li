@@ -1,5 +1,5 @@
 
-def get_data_campaign(name, title, text, img_id, video_id):
+def get_data_campaign(name, title, text, img_id, video_id, banner_id):
     data = {
             "name": name,
             "conversion_funnel_id":None,
@@ -42,7 +42,7 @@ def get_data_campaign(name, title, text, img_id, video_id):
             "max_price":"0",
             "package_id":1619,
             "banners":[{
-                "urls":{"primary":{"id":136898}},
+                "urls":{"primary":{"id":banner_id}},
                 "textblocks":{"title_25":{"text":title},
                                 "text_90":{"text":text},
                                 "cta_sites_full":{"text":"visitSite"}
