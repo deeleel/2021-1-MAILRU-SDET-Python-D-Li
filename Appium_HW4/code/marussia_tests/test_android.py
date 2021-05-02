@@ -34,15 +34,9 @@ class TestNews(BaseCase):
     @allure.description("""Проверка корректности выбора новостей""")
     @pytest.mark.AndroidUI
     def test_news_origin(self):
-        self.main_page.click_for_android(self.main_page.locators.BURGER_MENU)
-        self.settings_page.choose_news_origin()
-        self.news_page.set_news_origin('Вести FM')
-
-        self.driver.back()
-        self.driver.back()
-
-        self.main_page.my_request('News')
-        self.main_page.check_track('Вести ФМ')
+        self.main_page.choose_news('Вести FM')
+        self.main_page.go_back()
+        self.main_page.check_news_track('News', 'Вести ФМ')
 
 
 @allure.story('Взаимодействие с настройками приложения')
@@ -50,12 +44,5 @@ class TestSettings(BaseCase):
 
     @allure.description("""Проверка корректности настроек приложения""")
     @pytest.mark.AndroidUI
-    def test_settings(self):
-        self.main_page.click_for_android(self.main_page.locators.BURGER_MENU)
-        self.settings_page.choose_settings_about()
-        self.about_page.check_settings_about()
-
-
-
-
-
+    def test_settings(self, app_version):
+        self.main_page.check_info(app_version, 'Все права защищены')

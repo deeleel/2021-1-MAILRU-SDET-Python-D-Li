@@ -1,13 +1,11 @@
 import logging
+import re
 import sys
-import allure
 
 from ui.fixtures import *
 
 
 def pytest_addoption(parser):
-    parser.addoption('--browser', default='chrome')
-    parser.addoption('--url', default='https://en.wikipedia.org/')
     parser.addoption('--os', default='android')
     parser.addoption('--appium', default='http://127.0.0.1:4723/wd/hub')
     parser.addoption('--debug_log', action='store_true')
@@ -15,23 +13,22 @@ def pytest_addoption(parser):
 
 @pytest.fixture(scope='session')
 def config(request):
-    browser = request.config.getoption('--browser')
     device_os = request.config.getoption('--os')
-    if device_os == 'mw':
-        url = 'https://en.m.wikipedia.org/'
-    elif device_os == 'web':
-        url = 'https://en.wikipedia.org/'
-    else:
-        url = request.config.getoption('--url')
     appium = request.config.getoption('--appium')
     debug_log = request.config.getoption('--debug_log')
-    return {'url': url, 'browser': browser, 'device_os': device_os, 'appium': appium, 'debug_log': debug_log}
+    return {'device_os': device_os, 'appium': appium, 'debug_log': debug_log}
 
 
 @pytest.fixture(scope='session')
 def repo_root():
     return os.path.abspath(os.path.join(__file__, os.pardir))
 
+@pytest.fixture(scope='session')
+def app_version(repo_root):
+    folder = os.path.join(repo_root, 'stuff')
+    app = [i for i in os.listdir(folder) if 'Marussia' in i]
+    version = re.search('(?<=v).+(?=.apk)', app[0])
+    return version.group()
 
 def pytest_configure(config):
     if sys.platform.startswith('win'):
@@ -81,27 +78,15 @@ def logger(test_dir, config):
         allure.attach(f.read(), 'test.log', attachment_type=allure.attachment_type.TEXT)
 
 
-@pytest.fixture(autouse=True)
-def skip_by_platform(request, config):
-    if request.node.get_closest_marker('skip_platform'):
-        if request.node.get_closest_marker('skip_platform').args[0] == config['device_os']:
-            pytest.skip('skipped on this platform: {}'.format(config['device_os']))
-
-
 @pytest.fixture(scope='session', autouse=True)
-def add_allure_environment_property(request, config):
-    """
-    В зависимости от типа девайса добавляем в наши environment аллюра
-    environment.properties должен лежать внутри директории файлов allure в виде словаря
-    """
+def add_allure_environment_property(request, app_version):
+   
     alluredir = request.config.getoption('--alluredir')
     if alluredir:
         env_props = dict()
-        if config['device_os'] in ['web', 'mw']:
-            env_props['Browser'] = 'Chrome'
-        else:
-            env_props['Appium'] = '1.20'
-            env_props['Android_emulator'] = '8.1'
+        env_props['Appium'] = '1.20'
+        env_props['Android_emulator'] = '8.1'
+        env_props['App_version'] = app_version
         if not os.path.exists(alluredir):
             os.makedirs(alluredir)
         allure_env_path = os.path.join(alluredir, 'environment.properties')

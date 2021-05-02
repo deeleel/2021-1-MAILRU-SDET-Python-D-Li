@@ -1,44 +1,10 @@
 from ui.pages.base_page import BasePage
+from ui.pages.settings_page import SettingsPageANDROID
 from ui.locators.locators_android import MainPageANDROIDLocators
 import allure
 
 
-class MainPage(BasePage):
-    locators = None
-
-    @allure.step('Clicking on keyboard')
-    def click_on_keyboard(self):
-        pass
-
-    @allure.step('Send text: {text}')
-    def input_request(self, text):
-        pass
-
-    @allure.step('Sending question')
-    def send_request(self):
-        pass
-
-    def my_request(self, text):
-        pass
-
-    @allure.step('Checking response')
-    def check_answer_contains(self, text):
-        pass
-
-    @allure.step('Checking response')
-    def check_answer(self, text):
-        pass
-
-    @allure.step('Checking response')
-    def check_track(self, name):
-        pass
-
-    @allure.step('Scrolling to {name}')
-    def scrolling_suggestions_to_element(self, name):
-        pass
-
-
-class MainPageANDROID(MainPage):
+class MainPageANDROID(BasePage):
     locators = MainPageANDROIDLocators()
 
     @allure.step('Clicking on keyboard')
@@ -77,3 +43,20 @@ class MainPageANDROID(MainPage):
         while not self.element_exist((self.locators.SUGGEST_ITEM[0], self.locators.SUGGEST_ITEM[1].format(name))):
             self.swipe_element_to_left(self.locators.SUGGEST_LIST)
         self.click_for_android((self.locators.SUGGEST_ITEM[0], self.locators.SUGGEST_ITEM[1].format(name)))
+
+    @allure.step('Choose news')
+    def choose_news(self, name):
+        self.click_for_android(self.locators.BURGER_MENU)
+        return SettingsPageANDROID(self.driver, self.config).choose_news_origin(name)
+
+    @allure.step('Checking news track')
+    def check_news_track(self, req, res):
+        self.my_request(req)
+        self.check_track(res)
+
+    @allure.step('Check app info')
+    def check_info(self, app_version, text):
+        self.click_for_android(self.locators.BURGER_MENU)
+        return SettingsPageANDROID(self.driver, self.config).choose_settings_about(app_version, text)
+        
+

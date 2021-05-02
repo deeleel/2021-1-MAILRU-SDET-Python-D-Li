@@ -3,15 +3,7 @@ from ui.locators.locators_android import NewsPageANDROIDLocators
 import allure
 
 
-class NewsPage(BasePage):
-    locators = None
-
-    @allure.step('Choosing news')
-    def set_news_origin(self, name):
-        pass
-
-
-class NewsPageANDROID(NewsPage):
+class NewsPageANDROID(BasePage):
     locators = NewsPageANDROIDLocators()
 
     @allure.step('Choosing news')
