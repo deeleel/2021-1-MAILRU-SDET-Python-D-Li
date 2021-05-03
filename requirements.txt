@@ -1,6 +1,8 @@
-allure-pytest==2.8.40pytest==6.2.2
+allure-pytest==2.8.40
+pytest==6.2.2
 Appium-Python-Client==1.1.0
 selenium==3.141.0urllib3==1.26.3
 Faker==8.1.0
-pytest-xdist==2.2.1
+jsonpickle==2.0.0
+pytest-xdist==2.2.1 
 webdriver-manager==3.3.0requests==2.25.1
