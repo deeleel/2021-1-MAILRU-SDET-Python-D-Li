@@ -44,31 +44,31 @@ def read_data():
 
 def write_to_file(count, res, urls, err4, err5):
 	with open('res.txt', 'w') as f:
-		f.write(f'All requests:\n{count}\n\n')
+		f.write(f'All requests: {count}\n\n')
 
 		f.write('Types of request:\n')
 
 		for i in res:
-			f.write(f'{i[0]} - {i[1]}\n')
-		f.write('\n')
+			f.write(f'{i[0]} - {i[1]}; ')
+		f.write('\n\n')
 
 		f.write('Most popular requests:\n')
 		for i in urls[0:10]:
-			f.write(str(i[0]) + '\n')
+			f.write(str(i[0]) + ' - ')
 			f.write(str(i[1]) + '\n')
 		f.write('\n')
 
 		f.write('Most heavy requests with 4xx:\n')
 		for i in err4[0:5]:
-			f.write(str(i[0]) + '\n')
-			f.write(str(i[1]) + '\n')
-			f.write(str(i[2]) + '\n')
+			f.write(str(i[0]) + ' - ')
+			f.write(str(i[1]) + ' - ')
+			f.write(str(i[2]) + ' - ')
 			f.write(str(i[3]) + '\n')
 		f.write('\n')
 
 		f.write('Top users whose requests(unique urls) - 5xx:\n')
 		for i in err5[0:5]:
-			f.write(str(i[0][1]) + '\n')
+			f.write(str(i[0][1]) + ' - ')
 			f.write(str(i[1]) + '\n')
 
 
