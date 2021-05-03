@@ -2,21 +2,21 @@
 
 echo "All requests:" > result.txt
 cat access.log | awk '{print $1}' | wc -l >> result.txt
-printf "\n" >> result.txt
+printf "\n\n" >> result.txt
 
 echo "Types of request:" >> result.txt
-cat access.log | awk '{gsub(/\"/,"");print $6}'| sort | uniq -c | sort -n -r | awk '{printf "%s - %s\n", $2, $1}' >> result.txt
+cat access.log | awk '{gsub(/\"/,"");print $6}'| sort | uniq -c | sort -n -r | awk '{printf "%s - %s; ", $2, $1}' >> result.txt
 printf "\n" >> result.txt
 
 echo "Most popular requests:" >> result.txt
-cat access.log | awk '{print $7}'| sort | uniq -c | sort -n -r | head | awk '{printf "%s\n%s\n", $2, $1}' >> result.txt
+cat access.log | awk '{print $7}'| sort | uniq -c | sort -n -r | head | awk '{printf "%s - %s\n", $2, $1}' >> result.txt
 printf "\n" >> result.txt
 
 echo "Most heavy requests with 4xx:" >> result.txt
-cat access.log | awk '$9 ~ /4[0-9][0-9]/ {print $7, $9, $10, $1}' | sort -n -r -k 3 | head -5 | awk '{printf "%s\n%s\n%s\n%s\n", $1, $2, $3, $4}' >> result.txt
+cat access.log | awk '$9 ~ /4[0-9][0-9]/ {print $7, $9, $10, $1}' | sort -n -r -k 3 | head -5 | awk '{printf "%s - %s - %s - %s\n", $1, $2, $3, $4}' >> result.txt
 printf "\n" >> result.txt
 
 echo "Top users whose requests(unique urls) - 5xx:" >> result.txt
-cat access.log | awk '$9 ~ /5[0-9][0-9]/ {print $9, $1, $7}' | uniq -f1 -c | sort -n -r -k 1| head -5 | awk '{printf "%s\n%s\n", $3, $1}' >> result.txt
+cat access.log | awk '$9 ~ /5[0-9][0-9]/ {print $9, $1, $7}' | uniq -f1 -c | sort -n -r -k 1| head -5 | awk '{printf "%s - %s\n", $3, $1}' >> result.txt
 
 
