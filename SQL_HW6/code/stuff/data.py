@@ -6,6 +6,9 @@ from collections import Counter
 file_position = os.path.abspath(os.path.join(os.path.dirname(__file__),
                 							'../stuff/access.log'))
 
+PopularUrls_NUM = 10
+Errors_NUM = 5
+
 def read_data():
 	with open(file_position) as file:
 		data = reader(file, delimiter=' ')
@@ -35,4 +38,4 @@ def read_data():
 	err5 = list(zip(Counter(task4).keys(), Counter(task4).values()))
 	err5 = sorted(err5, key= lambda x: x[1], reverse=True)
 	
-	return [count, res, urls[0:10], err4[0:5], err5[0:5]]
+	return [count, res, urls[0:PopularUrls_NUM], err4[0:Errors_NUM], err5[0:Errors_NUM]]

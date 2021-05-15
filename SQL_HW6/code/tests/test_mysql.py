@@ -5,35 +5,35 @@ from tests.base import MySQLBase
 class TestDB(MySQLBase):
 
     def test_all_requests(self):
-        self.mysql_builder.fill_counter(self.data[0])
+        self.mysql_builder.fill_counter(self.data[0][0])
         res = self.mysql.session.query(Requests).all()
 
         assert len(res) == 1
 
 
     def test_types_of_request(self):
-        self.mysql_builder.fill_type_of_requests(self.data[1])
+        self.mysql_builder.fill_type_of_requests(self.data[0][1])
         query = self.mysql.session.query(RequestTypes).all()
 
-        assert len(query) == 5
+        assert len(query) == self.data[1][0]
 
     def test_popular_requests(self):
-        self.mysql_builder.fill_pupular_requests(self.data[2])
+        self.mysql_builder.fill_pupular_requests(self.data[0][2])
         query = self.mysql.session.query(PopularRequests).all()
 
-        assert len(query) == 10
+        assert len(query) == self.data[1][1]
 
     def test_err4_requests(self):
-        self.mysql_builder.fill_err4_requests(self.data[3])
+        self.mysql_builder.fill_err4_requests(self.data[0][3])
         query = self.mysql.session.query(Err4Requests).all()
 
-        assert len(query) == 5
+        assert len(query) == self.data[1][2]
 
     def test_err5_requests(self):
-        self.mysql_builder.fill_err5_requests(self.data[4])
+        self.mysql_builder.fill_err5_requests(self.data[0][4])
         query = self.mysql.session.query(Err5Requests).all()
 
-        assert len(query) == 5
+        assert len(query) == self.data[1][3]
 
 
 

@@ -29,5 +29,7 @@ def pytest_configure(config):
 
 @pytest.fixture(scope='session')
 def get_data():
-    return read_data()
+    data = read_data()
+    nums = [len(data[1]), len(data[2]), len(data[3]), len(data[4])]
+    return [data, nums]
     
