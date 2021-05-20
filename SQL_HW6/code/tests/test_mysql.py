@@ -15,25 +15,25 @@ class TestDB(MySQLBase):
         self.mysql_builder.fill_type_of_requests(self.data[0][1])
         query = self.mysql.session.query(RequestTypes).all()
 
-        assert len(query) == self.data[1][0]
+        assert len(query) == self.data[1]['types']
 
     def test_popular_requests(self):
         self.mysql_builder.fill_pupular_requests(self.data[0][2])
         query = self.mysql.session.query(PopularRequests).all()
 
-        assert len(query) == self.data[1][1]
+        assert len(query) == self.data[1]['popular']
 
     def test_err4_requests(self):
         self.mysql_builder.fill_err4_requests(self.data[0][3])
         query = self.mysql.session.query(Err4Requests).all()
 
-        assert len(query) == self.data[1][2]
+        assert len(query) == self.data[1]['err4']
 
     def test_err5_requests(self):
         self.mysql_builder.fill_err5_requests(self.data[0][4])
         query = self.mysql.session.query(Err5Requests).all()
 
-        assert len(query) == self.data[1][3]
+        assert len(query) == self.data[1]['err5']
 
 
 

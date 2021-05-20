@@ -28,9 +28,7 @@ class MysqlClient:
             encoding='utf8'
         )
         self.connection = self.engine.connect()
-        self.session = sessionmaker(bind=self.connection.engine, 
-                                    autocommit=True  
-                                    )()
+        self.session = sessionmaker(bind=self.connection.engine)()
 
     def execute_query(self, query, fetch=True):
         res = self.connection.execute(query)

@@ -12,6 +12,7 @@ class MySQLBuilder:
         )
 
         self.client.session.add(row)
+        self.client.session.commit()
 
     def fill_type_of_requests(self, data):
         for i in data:
@@ -20,6 +21,7 @@ class MySQLBuilder:
                 count = i[1]
             )
             self.client.session.add(row)
+        self.client.session.commit()
 
     def fill_pupular_requests(self, data):
         for i in data:
@@ -28,6 +30,7 @@ class MySQLBuilder:
                 count = i[1]
             )
             self.client.session.add(row)
+        self.client.session.commit()
 
     def fill_err4_requests(self, data):
         for i in data:
@@ -38,6 +41,7 @@ class MySQLBuilder:
                 ip = i[3]
             )
             self.client.session.add(row)
+        self.client.session.commit()
 
     def fill_err5_requests(self, data):
         for i in data:
@@ -46,3 +50,4 @@ class MySQLBuilder:
                 count = i[1]
             )
             self.client.session.add(row)
+        self.client.session.commit()
