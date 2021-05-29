@@ -12,4 +12,9 @@ class Builder:
     def surname():
         get_surname = fake.last_name()
         return get_surname
+
+    def word():
+        get_state = fake.word()
+        return get_state
+
     

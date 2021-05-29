@@ -22,8 +22,9 @@ class TestApp(ApiBase):
         
 
     def test_get_non_existent_user(self):
+        name = self.builder.word()
 
-        resp = self.api_client.get_user_by_name('dnsfndksfnkjsdnfjkdsjkfnsd')
+        resp = self.api_client.get_user_by_name(name)
         assert resp[0].split(" ")[1] == '404'
 
 
