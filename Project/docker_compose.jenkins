@@ -1,0 +1,43 @@
+properties([disableConcurrentBuilds()])
+
+pipeline {
+    agent {
+        label 'master'
+    }
+
+    options {
+        timestamps()
+    }
+
+    stages {
+
+        stage("Build && Test") {
+            steps {
+                sh'cd Project'
+                dir('Project') {
+                    sh'docker-compose up testsui'
+                }
+            }
+        }
+
+        stage("Shutdown") {
+            steps {
+                dir('Project') {
+                    sh'docker-compose down'
+                }
+            }
+        }
+
+    }
+
+    post {
+        always {
+            allure([
+                results: [[path: 'allure-results']]
+            ])
+            cleanWs(deleteDirs: true,
+                    patterns: [[pattern: 'allure-results/*', type: 'INCLUDE'],
+                               [pattern: 'allure-results', type: 'EXCLUDE']])
+        }
+    }
+}
